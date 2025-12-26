@@ -1,149 +1,114 @@
-🌐 CosmoSafeMode Kernel Pro
-Le Kernel de Résilience pour Développeurs & Systèmes Complexes
-CosmoSafeMode Kernel Pro est un moteur autonome de diagnostic, stabilisation et auto‑réparation conçu pour garantir la résilience de vos environnements de développement et de vos systèmes locaux.
+# CosmoSafeMode Kernel Pro VX  
+### Simulation Edition — v0.9
 
-Il scanne, analyse, stabilise et répare automatiquement les environnements fragiles, corrompus ou instables — avant qu’ils ne bloquent votre travail.
+CosmoSafeMode Kernel Pro VX est un moteur d’audit, de diagnostic et de résilience pour projets logiciels.  
+Il analyse la structure, la stabilité, la cohérence et les risques d’un projet, puis génère un rapport civilisationnel complet.
 
-Ce module est le cœur du CosmoTools Ecosystem, et constitue la base du futur SafeMode Kernel distribué en version Pro et SaaS.
+Cette édition **Simulation VX** exécute l’ensemble des moteurs en mode sécurisé (sans modification réelle) et produit des cartes JSON exploitables via le **ControlCenter VX**.
 
-🚀 Fonctionnalités principales
-🔍 1. SafeScan Engine
-Analyse complète ou rapide d’un dossier, d’un environnement ou d’un système.
-Détecte :
+---
 
-conflits Node/npm/Vite
+## 🚀 Fonctionnalités principales
 
-dépendances corrompues
+### 🔍 NexusInspector VX  
+Analyse la structure du projet, détecte les anomalies, cartographie les fichiers et génère `nexus_map.json`.
 
-fichiers manquants
+### 🧠 MetaStabilizer VX  
+Évalue la stabilité globale, calcule un Stability Score, détecte les risques futurs et génère `meta_stability_map.json`.
 
-erreurs structurelles
+### 🛠 SelfRepair VX (Simulation)  
+Propose des réparations possibles, génère un Repair Action Graph et produit `selfrepair_map.json`.
 
-anomalies système
+### 🛡 KernelResilience VX  
+Analyse la résilience du projet, détecte les points faibles structurels et génère `kernel_resilience_map.json`.
 
-incohérences de configuration
+### 🌀 CosmoOrchestrator VX  
+Coordonne l’ensemble des moteurs et génère `orchestrator_map.json`.
 
-🛡️ 2. Resilience Core
-Stabilise l’environnement avant toute réparation.
+### ♻ RecoveryKernel VX  
+Analyse les possibilités de récupération et génère `recovery_map.json`.
 
-normalisation des chemins
+### 🔄 AutoUpdate VX  
+Simule les mises à jour internes et génère `autoupdate_map.json`.
 
-vérification des registres critiques
+---
 
-restauration des états minimaux
+## 🖥 ControlCenter VX (Dashboard)
 
-préparation du terrain pour l’auto‑réparation
+Une interface web incluse dans le produit permet de visualiser :
 
-🔧 3. AutoHeal Engine
-Répare automatiquement ce qui peut l’être.
+- les cartes JSON générées  
+- les scores  
+- les risques  
+- les recommandations  
+- les actions proposées  
 
-nettoyage intelligent
+### Lancer le dashboard :
 
-réinstallation ciblée
+start_controlcenter.bat
 
-correction de dépendances
+Puis ouvrir votre navigateur sur l’adresse indiquée.
 
-restauration de modules critiques
+---
 
-actions guidées pour les cas complexes
+## ▶ Lancer une simulation complète
 
-👁️ 4. SafeMode Orchestrator
-Orchestre l’ensemble des modules internes :
+Dans un terminal :
 
-Watchdog (surveillance continue)
+cd CosmoSafeMode_KernelPro_VX
+node simulate_all.js
 
-Debug Mode
+Les rapports seront générés dans :
 
-UltraFast Mode
+/logs
 
-Recovery Mode
+---
 
-🖥️ Interface principale : Control Center
-Le fichier CosmoToolsLauncherGUI.exe sert de tableau de bord central.
-Il permet de lancer :
+## 📦 Contenu du produit
 
-un scan rapide
+- `modules/` : moteurs VX  
+- `ControlCenter/` : dashboard web  
+- `simulate_all.js` : exécution complète en mode simulation  
+- `config.json` : configuration du produit  
+- `logs/` : rapports JSON  
+- `plugins/` : extensions internes  
+- `START_HERE.txt` : guide rapide  
 
-un scan profond
+---
 
-une stabilisation
+## 🎯 Cas d’usage
 
-une réparation
+- Audit d’un projet avant refactor  
+- Diagnostic de stabilité d’un codebase  
+- Analyse de risques techniques  
+- Génération de rapports pour clients / managers  
+- Préparation d’un plan de réparation ou de restructuration  
 
-un mode surveillance
+---
 
-un mode récupération
+## 📌 Version actuelle
 
-📦 Structure interne (modules inclus)
-Module	Rôle
-NexusInspector_VX.exe	Analyse profonde (SafeScan Engine)
-SafeMode_UltraFast_VX.exe	Scan rapide
-MetaStabilizer_VX.exe	Stabilisation avancée
-KernelResilience_VX.exe	Résilience minimale garantie
-SelfRepair_VX.exe	Auto‑réparation ciblée
-RecoveryKernel.exe	Mode récupération totale
-CosmoOrchestrator_VX.exe	Orchestration interne
-SafeMode_Watchdog_VX.exe	Surveillance continue
-SafeMode_Debug_VX.exe	Mode debug
-CosmoToolsLauncherGUI.exe	Interface principale (Control Center)
-🧪 Usage (CLI)
-Bien que l’interface graphique soit le point d’entrée recommandé, une version CLI est disponible pour les utilisateurs avancés.
+**v0.9 — Simulation Edition**  
+Cette version exécute tous les moteurs en mode simulation (aucune modification réelle).
 
-Scanner un dossier
-bash
-SafeMode.exe --path="C:\Chemin\Vers\Votre\Projet"
-Exemples
-bash
-SafeMode.exe --path="C:\CosmoCodeUniverse"
-SafeMode.exe --path="C:\CosmoTools\SafeMode"
-Modes disponibles
-bash
-SafeMode.exe --mode=scan
-SafeMode.exe --mode=stabilize
-SafeMode.exe --mode=repair
-SafeMode.exe --mode=full
-SafeMode.exe --mode=watch
-SafeMode.exe --mode=recovery
-Niveaux
-bash
---level=fast
---level=deep
---level=debug
-🗺️ Roadmap
-Version Pro (locale)
-Interface unifiée (Control Center)
+La version 1.0 inclura :
 
-Logs structurés
+- modes réels  
+- exécutable Windows  
+- packaging complet  
+- extensions premium  
 
-Rapports exportables
+---
 
-Modes avancés (deep, debug, recovery)
+## 📄 Licence
 
-Auto‑Heal intelligent
+Usage autorisé pour audit, diagnostic et démonstration.  
+Toute redistribution commerciale nécessite une licence.
 
-Version Premium
-Historique des scans
+---
 
-Modules additionnels
+## 👤 Auteur
 
-Optimisations automatiques
+Développé par **Steven (Stipax)**  
+CosmoCode Universe — 2025  
 
-Intégration Git
-
-Export PDF/HTML
-
-Version SaaS
-Monitoring continu
-
-Alertes
-
-API
-
-Dashboard cloud
-
-Marketplace de modules
-
-📘 Licence & Avertissements
-CosmoSafeMode Kernel Pro est un outil avancé destiné aux développeurs, ingénieurs et équipes techniques.
-Certaines opérations peuvent modifier votre environnement local.
-Utilisez-le avec discernement.
