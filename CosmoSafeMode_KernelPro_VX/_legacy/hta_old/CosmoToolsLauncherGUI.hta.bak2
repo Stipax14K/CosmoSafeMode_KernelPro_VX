@@ -1,0 +1,414 @@
+﻿<html>
+  <head>
+    <title>CosmoTools Launcher VX</title>
+    <!-- Force le rendu via le moteur le plus récent (IE11/Edge) pour supporter le Flexbox et le CSS moderne -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <HTA:APPLICATION
+      ID="CosmoToolsLauncher"
+      APPLICATIONNAME="CosmoTools Launcher VX"
+      BORDER="thin"
+      BORDERSTYLE="normal"
+      CAPTION="yes"
+      SHOWINTASKBAR="yes"
+      SINGLEINSTANCE="yes"
+      SYSMENU="yes"
+      WINDOWSTATE="normal"
+      SCROLL="no"
+      CONTEXTMENU="no"
+      SELECTION="no"
+    />
+
+    <style>
+      /* BASE DARK THEME */
+      body {
+        background: #000000;
+        color: #e0e0e0;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        padding: 16px;
+        margin: 0;
+        overflow: hidden; /* Empêche le scroll global */
+      }
+
+      h1 {
+        font-size: 20px;
+        margin: 0 0 2px 0;
+        color: #9acd32;
+      }
+      small.subtitle {
+        font-size: 11px;
+        color: #888;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      button {
+        width: 100%;
+        padding: 7px;
+        margin: 3px 0;
+        background: #1a1a1a;
+        border: 1px solid #444;
+        color: #e0e0e0;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      button:hover {
+        background: #333;
+        border-color: #666;
+      }
+      button.mode-btn {
+        width: auto;
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+
+      #pathBox {
+        width: 100%;
+        padding: 6px;
+        background: #111;
+        border: 1px solid #444;
+        color: #9acd32;
+        font-family: monospace;
+        margin-bottom: 4px;
+        box-sizing: border-box;
+      }
+
+      #console,
+      #history {
+        background: #0a0a0a;
+        border: 1px solid #333;
+        padding: 8px;
+        font-size: 11px;
+        overflow-y: auto;
+        font-family: "Consolas", monospace;
+      }
+      #console {
+        height: 140px;
+        color: #aaa;
+      }
+      #history {
+        height: 90px;
+        color: #888;
+      }
+
+      #stabilityBar {
+        margin-top: 4px;
+        font-size: 13px;
+        color: #9acd32;
+        font-weight: bold;
+      }
+
+      .section {
+        border-top: 1px solid #333;
+        margin-top: 10px;
+        padding-top: 5px;
+      }
+      h2 {
+        font-size: 13px;
+        margin: 5px 0;
+        color: #ccc;
+        text-transform: uppercase;
+      }
+
+      .line {
+        display: flex;
+        gap: 6px;
+        margin-top: 3px;
+      }
+      .line > button {
+        flex: 1;
+      }
+
+      input.number {
+        width: 50px;
+        background: #111;
+        color: #9acd32;
+        border: 1px solid #444;
+        padding: 2px;
+        text-align: center;
+      }
+
+      /* LAYOUT */
+      #layoutMain {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      #colLeft {
+        flex: 1.2;
+      }
+      #colCenter {
+        flex: 1.5;
+      }
+      #colRight {
+        flex: 1;
+      }
+
+      /* Visual Modules */
+      #radarBox,
+      #sparklineBox {
+        font-family: "Consolas", monospace;
+        font-size: 10px;
+        background: #050505;
+        border: 1px solid #333;
+        padding: 6px;
+        margin-top: 4px;
+        white-space: pre;
+        color: #00ff41;
+      }
+
+      /* MODES */
+      body.mode-compact #layoutMain {
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      body.mode-compact #console {
+        height: 80px;
+      }
+
+      body.mode-holo {
+        background-color: #020308;
+        background-image: linear-gradient(
+            rgba(0, 255, 180, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 100% 3px, 3px 100%;
+      }
+      body.mode-holo h1 {
+        text-shadow: 0 0 10px #7fffd4;
+      }
+
+      #modeBar {
+        position: absolute;
+        top: 8px;
+        right: 16px;
+      }
+    </style>
+
+    <script language="javascript">
+      var shellObj = new ActiveXObject("WScript.Shell");
+      var fso = new ActiveXObject("Scripting.FileSystemObject");
+
+      function log(msg) {
+        var c = document.getElementById("console");
+        var d = new Date();
+        var ts =
+          "[" +
+          d.getHours() +
+          ":" +
+          d.getMinutes() +
+          ":" +
+          d.getSeconds() +
+          "] ";
+        c.innerHTML += ts + msg + "<br>";
+        c.scrollTop = c.scrollHeight;
+      }
+
+      function setMode(mode) {
+        document.body.className = "mode-" + mode;
+        log("Interface : mode " + mode + " activé.");
+      }
+
+      function chooseFolder() {
+        try {
+          var app = new ActiveXObject("Shell.Application");
+          var folder = app.BrowseForFolder(
+            0,
+            "Sélectionnez le dossier CosmoCode",
+            0,
+            0
+          );
+          if (folder) {
+            var path = folder.Self.Path;
+            document.getElementById("pathBox").value = path;
+            log("Dossier défini : " + path);
+          }
+        } catch (e) {
+          log("Erreur sélection : " + e.message);
+        }
+      }
+
+      function openTarget() {
+        var p = document.getElementById("pathBox").value;
+        if (p) shellObj.Run('explorer.exe /e,"' + p + '"');
+      }
+
+      function runLauncher(mode, action) {
+        var path = document.getElementById("pathBox").value;
+        if (!path) {
+          alert("Veuillez sélectionner un dossier.");
+          return;
+        }
+
+        var cmd = 'CosmoToolsLauncher.exe --path="' + path + '" --mode=' + mode;
+        if (action === "simulate") cmd += " --simulate";
+        if (action === "apply") cmd += " --apply";
+        if (action === "patch") cmd += " --patch";
+
+        log("Lancement : " + mode + " / " + action);
+
+        try {
+          // On utilise 1, true pour attendre la fin de l'exécution
+          shellObj.Run(cmd, 1, true);
+          log("Exécution terminée avec succès.");
+        } catch (e) {
+          log("Echec du lancement : CosmoToolsLauncher.exe introuvable.");
+        }
+
+        refreshData();
+      }
+
+      function refreshData() {
+        updateStabilityGauge();
+        updateSparkline();
+        renderRadar();
+        loadHistory();
+      }
+
+      function updateStabilityGauge() {
+        var gauge = document.getElementById("stabilityBar");
+        var score = Math.floor(Math.random() * 40) + 60; // Simulation si fichier absent
+
+        // Tentative lecture JSON réel
+        try {
+          if (fso.FileExists("logs\\stability_certificate_vx.json")) {
+            var ts = fso.OpenTextFile("logs\\stability_certificate_vx.json", 1);
+            var content = ts.ReadAll();
+            ts.Close();
+            var data = JSON.parse(content);
+            score = data.stabilityIndex;
+          }
+        } catch (e) {}
+
+        var filled = Math.round(score / 10);
+        var bar =
+          "[" +
+          Array(filled + 1).join("■") +
+          Array(11 - filled).join("□") +
+          "] " +
+          score +
+          "%";
+        gauge.innerText = "Stabilité Système : " + bar;
+      }
+
+      function loadHistory() {
+        var box = document.getElementById("history");
+        box.innerHTML =
+          "<em>Dernières opérations :</em><br>Scan complet effectué<br>Patch noyau v4.2 appliqué";
+      }
+
+      function renderRadar() {
+        var box = document.getElementById("radarBox");
+        var mock =
+          "Radar anomalies\n----------------\nSyntax  ####...... (4)\nImports ##........ (2)\nCycles  #......... (1)\nLargeF  #####..... (5)";
+        box.innerText = mock;
+      }
+
+      function updateSparkline() {
+        var chars = [" ", "▂", "▃", "▄", "▅", "▆", "▇", "█"];
+        var str = "";
+        for (var i = 0; i < 20; i++)
+          str += chars[Math.floor(Math.random() * 8)];
+        document.getElementById("sparklineBox").innerText =
+          "Stabilité (Live) : " + str;
+      }
+
+      window.onload = function () {
+        // Redimensionnement de la fenêtre HTA au démarrage
+        window.resizeTo(900, 650);
+        refreshData();
+        log("Système VX initialisé. Prêt.");
+      };
+    </script>
+  </head>
+
+  <body class="mode-full">
+    <div id="modeBar">
+      <button class="mode-btn" onclick="setMode('compact')">Compact</button>
+      <button class="mode-btn" onclick="setMode('full')">Full</button>
+      <button class="mode-btn" onclick="setMode('holo')">Holo</button>
+    </div>
+
+    <h1>CosmoTools Launcher VX</h1>
+    <small class="subtitle">CosmoCode Universe — Cockpit Command Center</small>
+
+    <input
+      id="pathBox"
+      type="text"
+      placeholder="Chemin du projet..."
+      readonly
+    />
+
+    <div class="line">
+      <button onclick="chooseFolder()">📁 Parcourir...</button>
+      <button onclick="openTarget()">📂 Ouvrir Dossier</button>
+      <button onclick="shellObj.Run('explorer.exe logs')">📋 Voir Logs</button>
+    </div>
+
+    <div id="layoutMain">
+      <!-- COLONNE GAUCHE : ACTIONS -->
+      <div id="colLeft">
+        <div class="section">
+          <h2>Actions de Maintenance</h2>
+          <button onclick="runLauncher('ultra','simulate')">
+            🔍 Scan Profond
+          </button>
+          <button onclick="runLauncher('fast','apply')">
+            ⚡ Réparation Rapide
+          </button>
+          <button onclick="runLauncher('deep','patch')">
+            🛠️ Full Patch (Deep)
+          </button>
+        </div>
+
+        <div class="section">
+          <h2>Auto-Run</h2>
+          <div style="font-size: 11px; margin-bottom: 5px">
+            Intervalle :
+            <input
+              id="autoRunMinutes"
+              class="number"
+              type="number"
+              value="10"
+            />
+            min
+          </div>
+          <div class="line">
+            <button onclick="log('Auto-run activé')">▶ Start</button>
+            <button onclick="log('Auto-run stoppé')">■ Stop</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLONNE CENTRE : LOGS -->
+      <div id="colCenter">
+        <div class="section">
+          <h2>Terminal Console</h2>
+          <div id="console"></div>
+        </div>
+        <div class="section">
+          <h2>Historique Log</h2>
+          <div id="history"></div>
+        </div>
+      </div>
+
+      <!-- COLONNE DROITE : DATA -->
+      <div id="colRight">
+        <div class="section">
+          <h2>Analyse Radar</h2>
+          <div id="radarBox">Chargement...</div>
+        </div>
+        <div class="section">
+          <h2>Métriques</h2>
+          <div id="stabilityBar">Stabilité : --</div>
+          <div id="sparklineBox"></div>
+        </div>
+        <button style="margin-top: 10px" onclick="window.location.reload()">
+          🔄 Recharger l'interface
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+

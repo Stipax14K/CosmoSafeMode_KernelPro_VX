@@ -1,0 +1,15 @@
+{
+  "selfRepairScore": {
+    "score": 83,
+    "rating": "good"
+  },
+  "riskMap": {
+    "riskLevel": "low",
+    "details": "Risque évalué comme low en mode démo"
+  },
+  "actions": [
+    "Réparation logique simulée.",
+    "Nettoyage des modules fictifs.",
+    "Stabilisation virtuelle."
+  ]
+}

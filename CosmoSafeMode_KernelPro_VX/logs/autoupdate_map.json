@@ -1,0 +1,16 @@
+{
+  "analytics": {
+    "updateScore": {
+      "score": 85,
+      "rating": "good"
+    },
+    "riskMap": {
+      "riskLevel": "low",
+      "details": "Risque évalué comme low en mode démo"
+    }
+  },
+  "updates": [
+    "Module A mis à jour (fictif)",
+    "Module B mis à jour (fictif)"
+  ]
+}

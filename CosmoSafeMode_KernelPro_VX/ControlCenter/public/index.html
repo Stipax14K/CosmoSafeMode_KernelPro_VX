@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Control Center VX - CosmoSafeMode Kernel Pro</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="cc-header">
+        <h1>Control Center VX</h1>
+        <h2>CosmoSafeMode Kernel Pro</h2>
+        <div id="cc-meta"></div>
+    </header>
+
+    <main class="cc-main">
+
+        <!-- SECTION: Vue globale -->
+        <section class="cc-section">
+            <h3>Vue globale</h3>
+            <div id="overview" class="cc-grid"></div>
+        </section>
+
+        <!-- SECTION: Actions -->
+        <section class="cc-section">
+            <h3>Actions</h3>
+            <div class="cc-actions">
+                <button class="cc-btn" data-run="orchestrator">Lancer Orchestrator VX</button>
+                <button class="cc-btn" data-run="recovery">Lancer RecoveryKernel VX</button>
+                <button class="cc-btn" data-run="autoupdate">Lancer AutoUpdate VX</button>
+                <button class="cc-btn" data-run="selfrepair">Lancer SelfRepair VX</button>
+                <button class="cc-btn" data-run="safemode">Lancer SafeMode VX</button>
+                <button class="cc-btn" id="simulate-all">Simuler tous les moteurs</button>
+            </div>
+            <pre id="action-output" class="cc-pre"></pre>
+        </section>
+
+        <!-- SECTION: Détails par moteur -->
+        <section class="cc-section">
+            <h3>Détails par moteur</h3>
+            <div class="cc-tabs">
+                <button data-module="nexus">NexusInspector</button>
+                <button data-module="meta">MetaStabilizer</button>
+                <button data-module="selfrepair">SelfRepair</button>
+                <button data-module="resilience">KernelResilience</button>
+                <button data-module="orchestrator">CosmoOrchestrator</button>
+                <button data-module="recovery">RecoveryKernel</button>
+                <button data-module="autoupdate">AutoUpdate</button>
+            </div>
+            <pre id="module-details" class="cc-pre"></pre>
+        </section>
+
+    </main>
+
+    <footer class="cc-footer">
+        <span>Control Center VX - v1.1.0</span>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

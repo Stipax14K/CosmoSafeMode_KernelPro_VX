@@ -1,0 +1,21 @@
+{
+  "globalScore": {
+    "score": 99,
+    "rating": "excellent"
+  },
+  "modules": {
+    "system": {
+      "score": 64,
+      "rating": "medium"
+    },
+    "network": {
+      "score": 82,
+      "rating": "good"
+    },
+    "integrity": {
+      "score": 65,
+      "rating": "medium"
+    }
+  },
+  "summary": "Analyse Nexus fictive générée en mode démo."
+}

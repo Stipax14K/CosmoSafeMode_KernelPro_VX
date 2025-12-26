@@ -1,0 +1,15 @@
+{
+  "stabilityScore": {
+    "score": 64,
+    "rating": "medium"
+  },
+  "riskMap": {
+    "riskLevel": "critical",
+    "details": "Risque évalué comme critical en mode démo"
+  },
+  "recommendations": [
+    "Optimiser les modules critiques.",
+    "Vérifier la cohérence des dépendances.",
+    "Ajuster les paramètres de stabilité."
+  ]
+}

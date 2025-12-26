@@ -1,0 +1,27 @@
+{
+  "productName": "CosmoSafeMode Kernel Pro - VX Edition",
+  "version": "3.0.0",
+  "defaultTargetPath": "C:\\CosmoCodeUniverse",
+  "controlCenterPort": 3080,
+
+  "demoMode": false,
+  "simulationMode": true,
+
+  "paths": {
+    "logs": "./logs",
+    "modules": "./modules",
+    "bin": "./bin",
+    "plugins": "./plugins",
+    "legacy": "./_legacy"
+  },
+
+  "orchestrator": {
+    "defaultRepairMode": "auto",
+    "allowUnsafeModes": false
+  },
+
+  "ui": {
+    "theme": "dark",
+    "showExperimentalFeatures": false
+  }
+}

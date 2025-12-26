@@ -1,0 +1,15 @@
+{
+  "recoveryScore": {
+    "score": 97,
+    "rating": "excellent"
+  },
+  "riskMap": {
+    "riskLevel": "moderate",
+    "details": "Risque évalué comme moderate en mode démo"
+  },
+  "recoveryPlan": [
+    "Étape 1 : Analyse fictive",
+    "Étape 2 : Reconstruction virtuelle",
+    "Étape 3 : Validation simulée"
+  ]
+}

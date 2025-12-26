@@ -1,0 +1,22 @@
+{
+  "analytics": {
+    "resilienceScore": {
+      "score": 61,
+      "rating": "medium"
+    },
+    "riskMap": {
+      "riskLevel": "critical",
+      "details": "Risque évalué comme critical en mode démo"
+    }
+  },
+  "history": [
+    {
+      "event": "Boot stable",
+      "score": 92
+    },
+    {
+      "event": "Scan fictif",
+      "score": 88
+    }
+  ]
+}

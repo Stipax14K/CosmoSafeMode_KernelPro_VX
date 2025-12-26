@@ -1,0 +1,10 @@
+1) Installer Node.js
+2) Ouvrir un terminal dans ce dossier
+3) Lancer la simulation :
+   node simulate_all.js
+
+4) Lancer le ControlCenter VX :
+   start_controlcenter.bat
+   ou ./start_controlcenter.sh
+
+5) Les rapports JSON sont dans /logs

@@ -1,0 +1,33 @@
+{
+  "ports": [
+    {
+      "file": "C:\\CosmoTools\\SafeMode\\safe_mode.js",
+      "issue": "Port 9999 detected (should be 5055)"
+    }
+  ],
+  "imports": [
+    {
+      "file": "C:\\CosmoTools\\SafeMode\\safe_mode.js",
+      "issue": "spacing imported from colors.js"
+    },
+    {
+      "file": "C:\\CosmoTools\\SafeMode\\safe_mode.js",
+      "issue": "typography imported from colors.js"
+    }
+  ],
+  "lazy": [
+    {
+      "file": "C:\\CosmoTools\\SafeMode\\safe_mode.js",
+      "issue": "lazy() must use import()"
+    }
+  ],
+  "routes": [],
+  "summary": {
+    "totalFiles": 1,
+    "ports": 1,
+    "imports": 2,
+    "lazy": 1,
+    "routes": 0,
+    "status": "unstable"
+  }
+}

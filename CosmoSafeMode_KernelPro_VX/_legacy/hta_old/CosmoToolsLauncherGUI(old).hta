@@ -1,0 +1,446 @@
+﻿<html>
+  <head>
+    <title>CosmoTools Launcher VX</title>
+    <!-- Force le rendu via le moteur le plus récent (IE11/Edge) -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <HTA:APPLICATION
+      ID="CosmoToolsLauncher"
+      APPLICATIONNAME="CosmoTools Launcher VX"
+      BORDER="thin"
+      BORDERSTYLE="normal"
+      CAPTION="yes"
+      SHOWINTASKBAR="yes"
+      SINGLEINSTANCE="yes"
+      SYSMENU="yes"
+      WINDOWSTATE="normal"
+      SCROLL="no"
+      CONTEXTMENU="no"
+      SELECTION="no"
+    />
+
+    <style>
+      /* BASE DARK THEME */
+      body {
+        background: #000000;
+        color: #e0e0e0;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        padding: 16px;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin: 0 0 2px 0;
+        color: #9acd32;
+      }
+      small.subtitle {
+        font-size: 11px;
+        color: #888;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      button {
+        width: 100%;
+        padding: 7px;
+        margin: 3px 0;
+        background: #1a1a1a;
+        border: 1px solid #444;
+        color: #e0e0e0;
+        cursor: pointer;
+        font-size: 11px;
+      }
+      button:hover {
+        background: #333;
+        border-color: #666;
+      }
+      button.mode-btn {
+        width: auto;
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+      button.btn-primary {
+        border-color: #9acd32;
+        color: #9acd32;
+        font-weight: bold;
+      }
+      button.btn-apply {
+        border-color: #ff4500;
+        color: #ff4500;
+      }
+
+      #pathBox {
+        width: 100%;
+        padding: 6px;
+        background: #111;
+        border: 1px solid #444;
+        color: #9acd32;
+        font-family: monospace;
+        margin-bottom: 4px;
+        box-sizing: border-box;
+      }
+
+      /* Console / Textarea (Point 4.1) */
+      #consoleLog {
+        background: #0a0a0a;
+        border: 1px solid #333;
+        padding: 8px;
+        font-size: 11px;
+        font-family: "Consolas", monospace;
+        color: #9acd32;
+        width: 100%;
+        height: 150px;
+        resize: none;
+        outline: none;
+      }
+
+      #history {
+        background: #0a0a0a;
+        border: 1px solid #333;
+        padding: 8px;
+        font-size: 11px;
+        height: 70px;
+        overflow-y: auto;
+        font-family: "Consolas", monospace;
+        color: #888;
+      }
+
+      #stabilityBar {
+        margin-top: 4px;
+        font-size: 13px;
+        color: #9acd32;
+        font-weight: bold;
+      }
+
+      .section {
+        border-top: 1px solid #333;
+        margin-top: 10px;
+        padding-top: 5px;
+      }
+      h2 {
+        font-size: 12px;
+        margin: 5px 0;
+        color: #ccc;
+        text-transform: uppercase;
+      }
+
+      .line {
+        display: flex;
+        gap: 6px;
+        margin-top: 3px;
+      }
+      .line > button {
+        flex: 1;
+      }
+
+      /* LAYOUT */
+      #layoutMain {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      #colLeft {
+        flex: 1.2;
+      }
+      #colCenter {
+        flex: 1.5;
+      }
+      #colRight {
+        flex: 1;
+      }
+
+      #radarBox,
+      #sparklineBox {
+        font-family: "Consolas", monospace;
+        font-size: 10px;
+        background: #050505;
+        border: 1px solid #333;
+        padding: 6px;
+        margin-top: 4px;
+        white-space: pre;
+        color: #00ff41;
+      }
+
+      /* MODES D'AFFICHAGE */
+      body.mode-compact #layoutMain {
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      body.mode-holo {
+        background-color: #020308;
+        background-image: linear-gradient(
+            rgba(0, 255, 180, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 100% 3px, 3px 100%;
+      }
+      #modeBar {
+        position: absolute;
+        top: 8px;
+        right: 16px;
+      }
+    </style>
+
+    <script language="javascript">
+      var shellObj = new ActiveXObject("WScript.Shell");
+      var fso = new ActiveXObject("Scripting.FileSystemObject");
+
+      // --- 4.2 Fonctions JS intégrées ---
+
+      function logToConsole(msg) {
+        var consoleElem = document.getElementById("consoleLog");
+        if (!consoleElem) return;
+        var now = new Date();
+        var ts = "[" + now.toLocaleTimeString() + "] ";
+        consoleElem.value += ts + msg + "\r\n";
+        consoleElem.scrollTop = consoleElem.scrollHeight;
+      }
+
+      function getSelectedPath() {
+        return (
+          document.getElementById("pathBox").value || "C:\\CosmoCodeUniverse"
+        );
+      }
+
+      function runOrchestratorVX(mode) {
+        if (!mode) mode = "simulate"; // simulate ou apply
+        var path = getSelectedPath();
+        var exe = "CosmoOrchestrator_VX.exe";
+        var cmd = exe + ' --path="' + path + '" --repairMode=' + mode;
+
+        try {
+          shellObj.Run(cmd, 1, false);
+          logToConsole("Orchestrateur VX lancé (" + mode + ") sur " + path);
+        } catch (e) {
+          alert("Erreur lors du lancement de " + exe + " : " + e.message);
+        }
+      }
+
+      function runNexusVX() {
+        var exe = "NexusInspector_VX.exe";
+        var cmd = exe + ' --path="' + getSelectedPath() + '"';
+        try {
+          shellObj.Run(cmd, 1, false);
+          logToConsole("NexusInspector VX lancé.");
+        } catch (e) {
+          logToConsole("Erreur module : " + e.message);
+        }
+      }
+
+      function runMetaVX() {
+        var exe = "MetaStabilizer_VX.exe";
+        var cmd = exe + ' --path="' + getSelectedPath() + '"';
+        try {
+          shellObj.Run(cmd, 1, false);
+          logToConsole("MetaStabilizer VX lancé.");
+        } catch (e) {
+          logToConsole("Erreur module : " + e.message);
+        }
+      }
+
+      function runSelfRepairVX(mode) {
+        if (!mode) mode = "simulate";
+        var exe = "SelfRepair_VX.exe";
+        var cmd = exe + ' --path="' + getSelectedPath() + '" --mode=' + mode;
+        try {
+          shellObj.Run(cmd, 1, false);
+          logToConsole("SelfRepair VX lancé en mode " + mode + ".");
+        } catch (e) {
+          logToConsole("Erreur module : " + e.message);
+        }
+      }
+
+      function runAutoUpdateVX() {
+        var exe = "AutoUpdate_VX.exe";
+        var cmd = exe + ' --path="' + getSelectedPath() + '"';
+        try {
+          shellObj.Run(cmd, 1, false);
+          logToConsole("AutoUpdate VX lancé.");
+        } catch (e) {
+          logToConsole("Erreur module : " + e.message);
+        }
+      }
+
+      function runKernelVX() {
+        var exe = "KernelResilience_VX.exe";
+        var cmd = exe + " --phase=test";
+        try {
+          shellObj.Run(cmd, 1, false);
+          logToConsole("KernelResilience VX lancé (test).");
+        } catch (e) {
+          logToConsole("Erreur module : " + e.message);
+        }
+      }
+
+      // Fonctions utilitaires Interface
+      function setMode(mode) {
+        document.body.className = "mode-" + mode;
+        logToConsole("Interface : mode " + mode + " activé.");
+      }
+
+      function chooseFolder() {
+        try {
+          var app = new ActiveXObject("Shell.Application");
+          var folder = app.BrowseForFolder(
+            0,
+            "Sélectionnez le dossier CosmoCode",
+            0,
+            0
+          );
+          if (folder) {
+            document.getElementById("pathBox").value = folder.Self.Path;
+            logToConsole("Dossier défini : " + folder.Self.Path);
+          }
+        } catch (e) {
+          logToConsole("Erreur sélection : " + e.message);
+        }
+      }
+
+      function openTarget() {
+        var p = getSelectedPath();
+        shellObj.Run('explorer.exe /e,"' + p + '"');
+      }
+
+      function refreshData() {
+        updateStabilityGauge();
+        updateSparkline();
+        renderRadar();
+      }
+
+      function updateStabilityGauge() {
+        var score = Math.floor(Math.random() * 20) + 80;
+        var filled = Math.round(score / 10);
+        var bar =
+          "[" +
+          Array(filled + 1).join("■") +
+          Array(11 - filled).join("□") +
+          "] " +
+          score +
+          "%";
+        document.getElementById("stabilityBar").innerText =
+          "Stabilité Système : " + bar;
+      }
+
+      function renderRadar() {
+        document.getElementById("radarBox").innerText =
+          "Radar anomalies\n----------------\nSyntax  ####...... (4)\nImports ##........ (2)\nCycles  #......... (1)\nLargeF  #####..... (5)";
+      }
+
+      function updateSparkline() {
+        var chars = [" ", "▂", "▃", "▄", "▅", "▆", "▇", "█"];
+        var str = "";
+        for (var i = 0; i < 20; i++)
+          str += chars[Math.floor(Math.random() * 8)];
+        document.getElementById("sparklineBox").innerText =
+          "Stabilité (Live) : " + str;
+      }
+
+      window.onload = function () {
+        window.resizeTo(980, 720);
+        document.getElementById("pathBox").value = "C:\\CosmoCodeUniverse";
+        refreshData();
+        logToConsole("Système VX initialisé. Prêt.");
+      };
+    </script>
+  </head>
+
+  <body class="mode-full">
+    <div id="modeBar">
+      <button class="mode-btn" onclick="setMode('compact')">Compact</button>
+      <button class="mode-btn" onclick="setMode('full')">Full</button>
+      <button class="mode-btn" onclick="setMode('holo')">Holo</button>
+    </div>
+
+    <h1>CosmoSafeMode Kernel Pro</h1>
+    <small class="subtitle">Resilience Engine — Control Center</small>
+
+    <input
+      id="pathBox"
+      type="text"
+      placeholder="Chemin du projet..."
+      readonly
+    />
+
+    <div class="line">
+      <button onclick="chooseFolder()">📁 Parcourir...</button>
+      <button onclick="openTarget()">📂 Ouvrir Dossier</button>
+      <button onclick="shellObj.Run('explorer.exe logs')">📋 Voir Logs</button>
+    </div>
+
+    <!-- --- 4.3 Boutons Principaux --- -->
+    <div class="line" style="margin-top: 8px">
+      <button class="btn-primary" onclick="runOrchestratorVX('simulate')">
+        🔍 Scan Complet(Simulate)
+      </button>
+      <button class="btn-apply" onclick="runOrchestratorVX('apply')">
+        ⚠️ Scan + Réparation (Apply)
+      </button>
+    </div>
+
+    <div id="layoutMain">
+      <!-- COLONNE GAUCHE : MODULES VX -->
+      <div id="colLeft">
+        <div class="section">
+          <h2>Modules Avancés</h2>
+          <button onclick="runNexusVX()">
+            Analyse Profonde (NexusInspector)
+          </button>
+          <button onclick="runMetaVX()">Stabilisation (MetaStabilizer)</button>
+          <button onclick="runSelfRepairVX('simulate')">
+            Réparation (simulate)
+          </button>
+          <button onclick="runSelfRepairVX('apply')">Réparation (apply)</button>
+          <button onclick="runAutoUpdateVX()">
+            Mise à jour Auto (AutoUpdate)
+          </button>
+          <button onclick="runKernelVX()">
+            Test Résilience (KernelResilience)
+          </button>
+        </div>
+
+        <div class="section">
+          <h2>Legacy / Info</h2>
+          <button onclick="alert('Module de diagnostic profond hérité.')">
+            🔍 Legacy Scan
+          </button>
+        </div>
+      </div>
+
+      <!-- COLONNE CENTRE : TERMINAL LOGS -->
+      <div id="colCenter">
+        <div class="section">
+          <h2>Terminal Console VX</h2>
+          <!-- 4.1 Zone Log -->
+          <textarea id="consoleLog" readonly></textarea>
+        </div>
+        <div class="section">
+          <h2>Historique Rapide</h2>
+          <div id="history">
+            <em>Dernières opérations :</em><br />
+            - Système VX prêt<br />
+            - En attente d'instruction...
+          </div>
+        </div>
+      </div>
+
+      <!-- COLONNE DROITE : DATA ANALYTICS -->
+      <div id="colRight">
+        <div class="section">
+          <h2>Analyse Radar</h2>
+          <div id="radarBox">Chargement...</div>
+        </div>
+        <div class="section">
+          <h2>Métriques Stabilité</h2>
+          <div id="stabilityBar">Stabilité : --</div>
+          <div id="sparklineBox"></div>
+        </div>
+        <button style="margin-top: 10px" onclick="window.location.reload()">
+          🔄 Actualiser Interface
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

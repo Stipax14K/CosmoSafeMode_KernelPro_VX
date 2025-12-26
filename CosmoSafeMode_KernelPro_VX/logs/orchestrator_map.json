@@ -1,0 +1,12 @@
+{
+  "globalRisk": {
+    "riskLevel": "moderate",
+    "details": "Risque évalué comme moderate en mode démo"
+  },
+  "pipeline": [
+    "Scan fictif",
+    "Analyse fictive",
+    "Réparation fictive",
+    "Validation fictive"
+  ]
+}
