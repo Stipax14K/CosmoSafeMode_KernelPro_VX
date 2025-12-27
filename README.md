@@ -2,9 +2,9 @@
 ### Simulation Edition — v0.9
 
 CosmoSafeMode Kernel Pro VX est un moteur d’audit, de diagnostic et de résilience pour projets logiciels.  
-Il analyse la structure, la stabilité, la cohérence et les risques d’un projet, puis génère un rapport civilisationnel complet.
+Il analyse la structure, la stabilité, la cohérence et les risques d’un projet, puis génère un rapport complet en mode Simulation.
 
-Cette édition **Simulation VX** exécute l’ensemble des moteurs en mode sécurisé (sans modification réelle) et produit des cartes JSON exploitables via le **ControlCenter VX**.
+Cette édition **Simulation VX** exécute l’ensemble des moteurs en mode sécurisé (aucune modification réelle) et produit des cartes JSON exploitables via le **ControlCenter VX** (dashboard web inclus).
 
 ---
 
@@ -35,15 +35,9 @@ Simule les mises à jour internes et génère `autoupdate_map.json`.
 
 ## 🖥 ControlCenter VX (Dashboard)
 
-Lancer le ControlCenter VX :
-
-```bash
-start_controlcenter.bat
-```
-
 Une interface web incluse dans le produit permet de visualiser :
 
-- les cartes JSON générées  
+- les cartes JSON  
 - les scores  
 - les risques  
 - les recommandations  
@@ -51,15 +45,16 @@ Une interface web incluse dans le produit permet de visualiser :
 
 ### Lancer le dashboard :
 
+```bash
+cd CosmoSafeMode_KernelPro_VX
 start_controlcenter.bat
+```
 
-Puis ouvrir votre navigateur sur l’adresse indiquée.
+Puis ouvrir votre navigateur sur l’adresse indiquée (par défaut : http://localhost:3000).
 
 ---
 
 ## ▶ Lancer une simulation complète
-
-Dans un terminal :
 
 Dans un terminal :
 
@@ -68,23 +63,24 @@ cd CosmoSafeMode_KernelPro_VX
 node simulate_all.js
 ```
 
-node simulate_all.js
-
 Les rapports seront générés dans :
 
-/logs
+```bash
+logs/
+```
 
 ---
 
 ## 📦 Contenu du produit
 
-- `modules/` : moteurs VX  
-- `ControlCenter/` : dashboard web  
-- `simulate_all.js` : exécution complète en mode simulation  
-- `config.json` : configuration du produit  
-- `logs/` : rapports JSON  
-- `plugins/` : extensions internes  
-- `START_HERE.txt` : guide rapide  
+- `simulate_all.js`  
+- `ControlCenter/` (dashboard web)  
+- `modules/` (moteurs VX)  
+- `plugins/` (extensions internes)  
+- `logs/` (exemples de rapports JSON)  
+- `config.json`  
+- `README_Product_VX.md`  
+- `START_HERE.txt`  
 
 ---
 
@@ -95,6 +91,7 @@ Les rapports seront générés dans :
 - Analyse de risques techniques  
 - Génération de rapports pour clients / managers  
 - Préparation d’un plan de réparation ou de restructuration  
+- Démonstrations techniques et POC  
 
 ---
 
@@ -109,13 +106,7 @@ La version 1.0 inclura :
 - exécutable Windows  
 - packaging complet  
 - extensions premium  
-
----
-
-## 📄 Licence
-
-Usage autorisé pour audit, diagnostic et démonstration.  
-Toute redistribution commerciale nécessite une licence.
+- intégration SaaS  
 
 ---
 
@@ -127,8 +118,14 @@ Une version packagée prête à l’emploi est disponible ici :
 
 ---
 
+## 📄 Licence
+
+Usage autorisé pour audit, diagnostic et démonstration.  
+Redistribution commerciale interdite sans accord explicite.
+
+---
+
 ## 👤 Auteur
 
 Développé par **Steven (Stipax)**  
-CosmoCode Universe — 2025  
-
+CosmoCode Universe — 2025
