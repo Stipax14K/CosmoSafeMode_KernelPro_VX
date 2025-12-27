@@ -119,6 +119,14 @@ Toute redistribution commerciale nécessite une licence.
 
 ---
 
+## 💰 Version packagée / licence
+
+Une version packagée prête à l’emploi est disponible ici :
+
+👉 https://cosmocode.gumroad.com/l/cosmosafemode-kernel-pro-vx
+
+---
+
 ## 👤 Auteur
 
 Développé par **Steven (Stipax)**  
