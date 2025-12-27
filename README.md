@@ -35,6 +35,12 @@ Simule les mises à jour internes et génère `autoupdate_map.json`.
 
 ## 🖥 ControlCenter VX (Dashboard)
 
+Lancer le ControlCenter VX :
+
+```bash
+start_controlcenter.bat
+```
+
 Une interface web incluse dans le produit permet de visualiser :
 
 - les cartes JSON générées  
@@ -55,7 +61,13 @@ Puis ouvrir votre navigateur sur l’adresse indiquée.
 
 Dans un terminal :
 
+Dans un terminal :
+
+```bash
 cd CosmoSafeMode_KernelPro_VX
+node simulate_all.js
+```
+
 node simulate_all.js
 
 Les rapports seront générés dans :
